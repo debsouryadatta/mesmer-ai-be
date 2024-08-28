@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+python-dotenv
+langchain-openai
+langchain-core
+langchain-community
+pypdf
+faiss-cpu
+sqlmodel
+langchain_groq
+langchain-cohere
+beautifulsoup4
+langchain
+psycopg2-binary
