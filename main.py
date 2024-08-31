@@ -4,9 +4,12 @@ from fastapi import Depends, FastAPI
 from fastapi.responses import StreamingResponse
 
 from app.db import create_table, get_session
+from app.lib.auth import get_current_user
 from app.lib.groq import get_response_from_groq
 from app.models import User, Payload
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.router import user
 
 
 # Creating a context manager so that we can connect to db & create tables before starting the app
@@ -28,7 +31,7 @@ app = FastAPI(
 origins = [
     "http://localhost:5173",
     "*",
-    "https://support-chatbot-brown.vercel.app"
+    "https://mesmer-ai-fe.vercel.app"
 ]
 
 app.add_middleware(
@@ -39,6 +42,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(router=user.user_router)
+
 
 @app.get("/")
 async def root():
@@ -46,6 +51,7 @@ async def root():
 
 
 @app.post("/get_response")
+# async def get_response(payload: Payload, session = Depends(get_session), current_user: str = Depends(get_current_user)):
 async def get_response(payload: Payload, session = Depends(get_session)):
     async def generate_response():
         try:
@@ -83,17 +89,6 @@ async def get_response(payload: Payload, session = Depends(get_session)):
 
 
 
-@app.post("/register")
-async def register(user_info: User, session = Depends(get_session)):
-    user = User(
-        name=user_info.name,
-        email=user_info.email,
-        chat_history=[]
-    )
-    session.add(user)
-    session.commit()
-    session.refresh(user)
-    return {"success": True, "user_id": user.id}
 
 
 

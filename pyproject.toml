@@ -18,6 +18,8 @@ beautifulsoup4 = "^4.12.3"
 langchain-cohere = "^0.2.2"
 groq = "^0.10.0"
 requests = "^2.32.3"
+passlib = "^1.7.4"
+pyjwt = "^2.9.0"
 
 
 [build-system]

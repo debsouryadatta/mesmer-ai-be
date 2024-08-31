@@ -7,8 +7,18 @@ class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     email: str
+    password: str
     chat_history: Optional[Any] = Field(sa_column=Column(JSON), default=[])
 
 class Payload(BaseModel):
     user_id: int
     user_input: str
+    
+class SignupPayload(BaseModel):
+    name: str
+    email: str
+    password: str
+    
+class SigninPayload(BaseModel):
+    email: str
+    password: str
