@@ -119,7 +119,5 @@ async def get_response_from_groq(user_input, chat_history):
         stream=True
     )
     for chunk in response:
-        # print(chunk.choices[0].delta.content, end="")
         yield chunk.choices[0].delta.content
         await asyncio.sleep(0)
-    # return "Done"
